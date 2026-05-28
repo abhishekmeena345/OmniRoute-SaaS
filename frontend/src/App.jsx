@@ -26,7 +26,7 @@ function Navbar() {
     <header className="bg-emerald-600/90 backdrop-blur-md text-white p-4 shadow-lg sticky top-0 z-30 transition-all">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <Link to="/" className="text-2xl font-black tracking-tight flex items-center gap-2 drop-shadow-sm">
-          <span className="bg-white p-1.5 rounded-xl shadow-inner text-xl">🛒</span> GOYAL <span className="text-emerald-200">Supermart</span>
+          <span className="bg-white p-1.5 rounded-xl shadow-inner text-xl">🛒</span> Meena <span className="text-emerald-200">Supermart</span>
         </Link>
         
         <div className="flex gap-4 items-center text-sm font-semibold">
@@ -74,7 +74,8 @@ function Home() {
   const isAdmin = loggedInUser?.role === 'admin';
 
   useEffect(() => {
-    fetch('http://localhost:5005/api/products')
+    // 👇 NAYA: Live Render Backend Link
+    fetch('https://omniroute-backend-nzap.onrender.com/api/products')
       .then(res => res.json())
       .then(data => setProducts(data))
       .catch(err => console.error(err));
@@ -83,7 +84,8 @@ function Home() {
   }, []);
 
   const fetchUserOrders = () => {
-    fetch(`http://localhost:5005/api/orders/user/${loggedInUser.id}`)
+    // 👇 NAYA: Live Render Backend Link
+    fetch(`https://omniroute-backend-nzap.onrender.com/api/orders/user/${loggedInUser.id}`)
       .then(res => res.json())
       .then(data => setUserOrders(data))
       .catch(err => console.error(err));
@@ -116,7 +118,8 @@ function Home() {
     };
 
     try {
-      const response = await fetch('http://localhost:5005/api/orders/place', {
+      // 👇 NAYA: Live Render Backend Link
+      const response = await fetch('https://omniroute-backend-nzap.onrender.com/api/orders/place', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(orderData)
@@ -207,7 +210,6 @@ function Home() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {filteredProducts.map((item) => {
-              // 👇 NAYA: Percentage Calculate Karne ka logic
               const discountPercent = item.originalPrice && item.originalPrice > item.price 
                 ? Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100) 
                 : 0;
@@ -220,7 +222,6 @@ function Home() {
                     <img src={item.image || "https://via.placeholder.com/150"} alt={item.name} className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300" />
                     <span className="absolute top-2 left-2 text-[10px] font-black tracking-wide uppercase text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full shadow-sm">{item.category}</span>
                     
-                    {/* 👇 NAYA: Agar discount hai toh percentage dikhega, warna Combos pe normal OFFER dikhega 👇 */}
                     {discountPercent > 0 ? (
                       <span className="absolute top-2 right-2 bg-rose-500 text-white text-[11px] font-black px-2.5 py-1 rounded-full shadow-md animate-pulse">
                         {discountPercent}% OFF 🔥
@@ -243,7 +244,6 @@ function Home() {
                       <div className="flex items-center gap-1.5 flex-wrap">
                         <p className="font-black text-slate-900 text-lg">₹{item.price}</p>
                         
-                        {/* 👇 NAYA: Yahan purana price aur percentage badge dikhaya gaya hai 👇 */}
                         {item.originalPrice > item.price && (
                           <div className="flex items-center gap-1.5">
                             <p className="text-xs text-slate-400 line-through font-bold">₹{item.originalPrice}</p>
@@ -360,7 +360,6 @@ function Home() {
                       }`}>{order.status}</span>
                     </div>
                     
-                    {/* User History Me Order Type Dikhana */}
                     <div className="text-[10px] font-bold mt-1 text-slate-500">
                       {order.orderType === 'Delivery' ? `🛵 Delivery: ${order.deliveryAddress}` : `🛍️ Store Pickup`}
                     </div>

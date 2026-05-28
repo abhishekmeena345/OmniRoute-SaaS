@@ -5,14 +5,12 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [orders, setOrders] = useState([]);
-  // 👇 NAYA: originalPrice ko state mein add kiya gaya hai
   const [formData, setFormData] = useState({ name: '', category: '', price: '', originalPrice: '', stock: '' });
   const [imageFile, setImageFile] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [message, setMessage] = useState('');
   const [isUploading, setIsUploading] = useState(false);
 
-  // Stats ke liye state
   const [stats, setStats] = useState({
     totalOrders: 0,
     totalEarning: 0,
@@ -35,7 +33,8 @@ function AdminDashboard() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch('http://localhost:5005/api/products');
+      // 👇 NAYA: Live Render Backend Link
+      const res = await fetch('https://omniroute-backend-nzap.onrender.com/api/products');
       const data = await res.json();
       setProducts(data);
     } catch (err) { console.error(err); }
@@ -43,7 +42,8 @@ function AdminDashboard() {
 
   const fetchOrders = async () => {
     try {
-      const res = await fetch('http://localhost:5005/api/orders/all');
+      // 👇 NAYA: Live Render Backend Link
+      const res = await fetch('https://omniroute-backend-nzap.onrender.com/api/orders/all');
       const data = await res.json();
       setOrders(data);
     } catch (err) { console.error(err); }
@@ -51,7 +51,8 @@ function AdminDashboard() {
 
   const fetchStats = async () => {
     try {
-      const res = await fetch('http://localhost:5005/api/orders/dashboard-stats');
+      // 👇 NAYA: Live Render Backend Link
+      const res = await fetch('https://omniroute-backend-nzap.onrender.com/api/orders/dashboard-stats');
       const data = await res.json();
       if (data.success) {
         setStats(data.data);
@@ -61,7 +62,8 @@ function AdminDashboard() {
 
   const handleUpdateStatus = async (orderId, newStatus, orderDetails) => {
     try {
-      const res = await fetch(`http://localhost:5005/api/orders/update-status/${orderId}`, {
+      // 👇 NAYA: Live Render Backend Link
+      const res = await fetch(`https://omniroute-backend-nzap.onrender.com/api/orders/update-status/${orderId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
@@ -102,13 +104,14 @@ function AdminDashboard() {
       }
 
       const productData = { ...formData, image: imageUrl };
+      
+      // 👇 NAYA: Live Render Backend Links
       let response = editingId 
-        ? await fetch(`http://localhost:5005/api/products/update/${editingId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(productData) })
-        : await fetch('http://localhost:5005/api/products/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(productData) });
+        ? await fetch(`https://omniroute-backend-nzap.onrender.com/api/products/update/${editingId}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(productData) })
+        : await fetch('https://omniroute-backend-nzap.onrender.com/api/products/add', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(productData) });
 
       if (response.ok) {
         setMessage('✅ Inventory Updated Successfully!');
-        // 👇 NAYA: Reset karte waqt originalPrice bhi blank karein
         setFormData({ name: '', category: '', price: '', originalPrice: '', stock: '' });
         setImageFile(null);
         setEditingId(null);
@@ -131,7 +134,6 @@ function AdminDashboard() {
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Product Name" className="border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50" required />
             
-            {/* 👇 NAYA: Category Dropdown mein 'Combos' add kiya */}
             <select name="category" value={formData.category} onChange={handleChange} className="border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50 text-slate-500" required>
               <option value="">Choose Category</option>
               <option value="Groceries">Groceries</option>
@@ -140,7 +142,6 @@ function AdminDashboard() {
               <option value="Combos">🔥 Combos & Offers</option>
             </select>
 
-            {/* 👇 NAYA: 3 columns wali grid aur originalPrice input add kiya */}
             <div className="grid grid-cols-3 gap-3">
               <input type="number" name="originalPrice" value={formData.originalPrice} onChange={handleChange} placeholder="MRP (₹)" className="border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50" />
               <input type="number" name="price" value={formData.price} onChange={handleChange} placeholder="Offer Price (₹)" className="border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50" required />
@@ -199,8 +200,20 @@ function AdminDashboard() {
                       <td className="p-3 font-bold text-slate-700">{item.name}</td>
                       <td className="p-3 text-emerald-600 font-black">₹{item.price}</td>
                       <td className="p-3 flex gap-4 justify-center">
-                        <button onClick={() => { setEditingId(item._id); setFormData(item); }} className="text-xs text-amber-500 font-black hover:underline cursor-pointer">Edit</button>
-                        <button onClick={() => { if(window.confirm("Delete?")) fetch(`http://localhost:5005/api/products/delete/${item._id}`, {method:'DELETE'}).then(()=>fetchProducts()) }} className="text-xs text-rose-500 font-black hover:underline cursor-pointer">Remove</button>
+                        <button onClick={() => { 
+                          setEditingId(item._id); 
+                          setFormData({
+                            name: item.name,
+                            category: item.category,
+                            price: item.price,
+                            originalPrice: item.originalPrice || '',
+                            stock: item.stock,
+                            image: item.image || ''
+                          }); 
+                        }} className="text-xs text-amber-500 font-black hover:underline cursor-pointer">Edit</button>
+                        
+                        {/* 👇 NAYA: Live Render Backend Link */}
+                        <button onClick={() => { if(window.confirm("Delete?")) fetch(`https://omniroute-backend-nzap.onrender.com/api/products/delete/${item._id}`, {method:'DELETE'}).then(()=>fetchProducts()) }} className="text-xs text-rose-500 font-black hover:underline cursor-pointer">Remove</button>
                       </td>
                     </tr>
                   ))}
