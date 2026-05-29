@@ -26,7 +26,7 @@ function Navbar() {
     <header className="bg-emerald-600/90 backdrop-blur-md text-white p-4 shadow-lg sticky top-0 z-30 transition-all">
       <div className="flex justify-between items-center max-w-6xl mx-auto">
         <Link to="/" className="text-2xl font-black tracking-tight flex items-center gap-2 drop-shadow-sm">
-          <span className="bg-white p-1.5 rounded-xl shadow-inner text-xl">🛒</span> Meena <span className="text-emerald-200">Supermart</span>
+          <span className="bg-white p-1.5 rounded-xl shadow-inner text-xl">🛒</span> Goyal <span className="text-emerald-200">Supermart</span>
         </Link>
         
         <div className="flex gap-4 items-center text-sm font-semibold">
@@ -126,12 +126,12 @@ function Home() {
       });
 
       if (response.ok) {
-        const adminPhoneNumber = "919302277345"; 
+        const adminPhoneNumber = "917999206373"; 
         let itemsText = cart.map((item, idx) => `${idx + 1}. ${item.name} - ₹${item.price}`).join('\n');
         
         const deliveryText = orderType === 'Delivery' ? `🛵 *Type:* Home Delivery\n📍 *Address:* ${deliveryAddress}` : `🛍️ *Type:* Store Pickup`;
         
-        const messageText = encodeURIComponent(`🛒 *MEENA SUPERMART - NEW ORDER* 🛒\n----------------------------------\n👤 *Customer:* ${loggedInUser.name}\n📞 *Phone:* ${loggedInUser.phone}\n${deliveryText}\n\n📦 *Items List:*\n${itemsText}\n----------------------------------\n💰 *Total Bill:* ₹${totalBill}\nStatus: *Pending Approval*`);
+        const messageText = encodeURIComponent(`🛒 *Goyal SUPERMART - NEW ORDER* 🛒\n----------------------------------\n👤 *Customer:* ${loggedInUser.name}\n📞 *Phone:* ${loggedInUser.phone}\n${deliveryText}\n\n📦 *Items List:*\n${itemsText}\n----------------------------------\n💰 *Total Bill:* ₹${totalBill}\nStatus: *Pending Approval*`);
         
         const whatsappUrl = `https://wa.me/${adminPhoneNumber}?text=${messageText}`;
 

@@ -29,7 +29,7 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Test Route
 app.get('/', (req, res) => {
-    res.send('Meena Supermart API is running smoothly...');
+    res.send('Goyal Supermart API is running smoothly...');
 });
 
 // Server Start Karna

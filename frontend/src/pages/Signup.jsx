@@ -40,7 +40,7 @@ function Signup() {
         <div className="text-center mb-6">
           <span className="text-4xl bg-slate-50 p-3 rounded-2xl shadow-inner inline-block">👤</span>
           <h2 className="text-2xl font-black text-slate-800 mt-4 tracking-tight">Create Account</h2>
-          <p className="text-slate-400 font-medium text-xs mt-1">Meena Supermart par shopping karne ke liye register karein</p>
+          <p className="text-slate-400 font-medium text-xs mt-1">Goyal Supermart par shopping karne ke liye register karein</p>
         </div>
 
         {/* Dynamic Alert Messages */}
@@ -62,7 +62,7 @@ function Signup() {
               value={formData.name} 
               onChange={handleChange} 
               required 
-              placeholder="Abhishek Meena" 
+              placeholder="Abhishek Goyal" 
               className="w-full border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-slate-50 transition-all" 
             />
           </div>

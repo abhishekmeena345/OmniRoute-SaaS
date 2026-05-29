@@ -76,7 +76,7 @@ function AdminDashboard() {
         if (newStatus === 'Accepted' && orderDetails) {
           let customerPhone = orderDetails.customerPhone;
           if (!customerPhone.startsWith('91')) customerPhone = '91' + customerPhone;
-          const messageText = encodeURIComponent(`🎉 *MEENA SUPERMART* 🎉\n----------------------------------\nHi *${orderDetails.customerName}*,\n\nAapka order successfully *CONFIRM* ho gaya hai! 👍\nHamare yahan se saaman pack ho raha hai.\n\n💰 *Total Amount:* ₹${orderDetails.totalBill}`);
+          const messageText = encodeURIComponent(`🎉 *Goyal SUPERMART* 🎉\n----------------------------------\nHi *${orderDetails.customerName}*,\n\nAapka order successfully *CONFIRM* ho gaya hai! 👍\nHamare yahan se saaman pack ho raha hai.\n\n💰 *Total Amount:* ₹${orderDetails.totalBill}`);
           window.open(`https://wa.me/${customerPhone}?text=${messageText}`, '_blank');
         }
       }
